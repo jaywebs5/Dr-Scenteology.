@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>Dr Scenteology Fragrances - Pty Ltd | Prescribed for Lasting Impressions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #ffffff;
+      --card-bg: #fdfdfd;
+      --card-border: #eaeaea;
+      --text-main: #111111;
+      --text-secondary: #555555;
+      --bronze: #a25f28;
+      --bronze-dark: #111111;
+
+      /* Apple / SF-Pro inspired system stack (legally usable everywhere) */
+      --font-primary: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+                       "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-serif: "Playfair Display", "Iowan Old Style", Georgia, serif;
+
+      --section-padding-y: clamp(60px, 8vw, 100px);
+      --section-padding-x: clamp(16px, 5vw, 5%);
+      --container-max: 1400px;
+
+      /* Motion tokens */
+      --ease-lux: cubic-bezier(0.22, 1, 0.36, 1);
+      --dur-reveal: 0.85s;
+    }
+
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-primary);
+      font-size: clamp(15px, 1.1vw + 12px, 17px);
+      font-weight: 400;
+      line-height: 1.6;
+      letter-spacing: -0.006em;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    img { max-width: 100%; height: auto; display: block; }
+
+    h1, h2, h3, h4 {
+      font-weight: 600;
+      color: var(--text-main);
+      line-height: 1.15;
+      letter-spacing: -0.022em;
+    }
+    em {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--bronze);
+      letter-spacing: 0;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+    .hidden { display: none !important; }
+
+    /* Anchor offset so the fixed header never covers a section title */
+    section[id], .ceo-section, .page-header { scroll-margin-top: 110px; }
+
+    /* ============================================================
+       SCROLL REVEAL  (transform + opacity only = GPU friendly)
+       ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translate3d(0, 26px, 0);
+      transition:
+        opacity var(--dur-reveal) var(--ease-lux),
+        transform var(--dur-reveal) var(--ease-lux);
+      transition-delay: var(--rd, 0ms);
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .liquid-glass {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .clay-border {
+      border-radius: 24px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06),
+                  inset 2px 2px 5px rgba(255, 255, 255, 0.8),
+                  inset -2px -2px 5px rgba(0, 0, 0, 0.03);
+      background: #ffffff;
+    }
+
+    .chunky-clay {
+      background: var(--card-bg);
+      border-radius: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04),
+                  0 2px 8px rgba(0, 0, 0, 0.02);
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+    }
+
+    /* ===== Navbar ===== */
+    .navbar {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%) translateY(0);
+      width: calc(100% - 32px);
+      max-width: var(--container-max);
+      height: clamp(64px, 8vw, 80px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 clamp(16px, 3vw, 30px);
+      border-radius: 50px;
+      z-index: 1000;
+      gap: 12px;
+      will-change: transform;
+      transition:
+        transform 0.5s var(--ease-lux),
+        opacity 0.4s var(--ease-lux),
+        background-color 0.3s ease;
+    }
+    /* Slides up and out of view when scrolling down */
+    .navbar.nav-hidden {
+      transform: translateX(-50%) translateY(calc(-100% - 24px));
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .logo { display: flex; align-items: center; cursor: pointer; flex-shrink: 0; }
+    .logo img {
+      height: clamp(46px, 6vw, 70px);
+      width: auto;
+      object-fit: contain;
+    }
+
+    .nav-links { display: flex; align-items: center; gap: 2px; }
+    .nav-links a {
+      position: relative;
+      color: var(--text-secondary);
+      padding: 8px 14px;
+      font-size: clamp(0.85rem, 0.9vw + 0.5rem, 0.98rem);
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      transition: color 0.3s var(--ease-lux);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 3px;
+      height: 1px;
+      background: var(--bronze);
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 0.45s var(--ease-lux);
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--bronze); }
+    .nav-links a:hover::after,
+    .nav-links a.active::after { transform: scaleX(1); }
+
+    .btn-primary {
+      background-color: var(--bronze);
+      color: #ffffff;
+      padding: clamp(10px, 1vw, 12px) clamp(16px, 2vw, 28px);
+      border-radius: 30px;
+      font-weight: 500;
+      font-size: clamp(0.8rem, 0.8vw + 0.5rem, 0.93rem);
+      letter-spacing: -0.005em;
+      transition:
+        background-color 0.35s var(--ease-lux),
+        transform 0.35s var(--ease-lux),
+        box-shadow 0.35s var(--ease-lux);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .btn-primary:hover {
+      background-color: var(--bronze-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(162, 95, 40, 0.22);
+    }
+    .btn-primary:active { transform: translateY(0) scale(0.985); }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(162, 95, 40, 0.08);
+      transition: background-color 0.3s var(--ease-lux);
+    }
+    .hamburger:hover { background: rgba(162, 95, 40, 0.16); }
+    .hamburger span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--bronze);
+      border-radius: 2px;
+      transition: transform 0.3s var(--ease-lux), opacity 0.3s var(--ease-lux);
+    }
+    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: clamp(90px, 11vw, 110px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 500px;
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      border: 1px solid var(--card-border);
+      z-index: 999;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .mobile-menu.open { display: flex; animation: slideDown 0.3s var(--ease-lux); }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+    .mobile-menu a {
+      color: var(--text-main);
+      padding: 14px 18px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      transition: background-color 0.25s var(--ease-lux), color 0.25s var(--ease-lux);
+      cursor: pointer;
+    }
+    .mobile-menu a:hover,
+    .mobile-menu a.active {
+      background: rgba(162, 95, 40, 0.08);
+      color: var(--bronze);
+    }
+
+    /* ===== Hero ===== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      min-height: 100svh;
+      width: 100%;
+      display: flex;
+      align-items: flex-end;
+      padding: clamp(100px, 12vh, 140px) 0 clamp(60px, 8vh, 80px);
+      background: linear-gradient(to bottom, #f4f4f4 0%, #ffffff 100%);
+      overflow: hidden;
+    }
+
+    .hero-bg-text {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: clamp(4rem, 18vw, 18rem);
+      font-weight: 600;
+      color: rgba(0, 0, 0, 0.03);
+      letter-spacing: -0.04em;
+      z-index: 1;
+      pointer-events: none;
+      white-space: nowrap;
+      user-select: none;
+      will-change: transform;
+    }
+
+    .hero-container {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 var(--section-padding-x);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: clamp(24px, 4vw, 40px);
+    }
+
+    .hero-content { max-width: 600px; flex: 1 1 320px; }
+    .hero-title {
+      font-size: clamp(2rem, 5vw + 0.5rem, 5rem);
+      line-height: 1.05;
+      font-weight: 600;
+      letter-spacing: -0.038em;
+      margin-bottom: clamp(14px, 2vw, 20px);
+    }
+    .hero-subtitle {
+      color: var(--text-secondary);
+      font-size: clamp(0.95rem, 1vw + 0.6rem, 1.15rem);
+      line-height: 1.65;
+      letter-spacing: -0.008em;
+      max-width: 46ch;
+    }
+
+    /* ===== Carousel (GSAP-driven, original behaviour) ===== */
+    .carousel-container {
+      perspective: 1200px;
+      width: clamp(260px, 42vw, 650px);
+      height: clamp(280px, 32vw, 400px);
+      position: relative;
+      flex-shrink: 0;
+    }
+    .carousel-track { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; }
+    .carousel-card {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: clamp(190px, 22vw, 320px);
+      height: clamp(260px, 30vw, 420px);
+      padding: clamp(10px, 1.2vw, 15px);
+      display: flex;
+      flex-direction: column;
+      /* Original CSS transition — kept so the rotation feels the same */
+      transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+      transform-origin: center right;
+      will-change: transform, opacity;
+    }
+    .card-image {
+      width: 100%;
+      height: 75%;
+      border-radius: 16px;
+      background-size: cover;
+      background-position: center;
+      margin-bottom: clamp(8px, 1vw, 15px);
+    }
+    .card-info h3 {
+      font-size: clamp(0.9rem, 1vw + 0.4rem, 1.25rem);
+      font-weight: 500;
+      letter-spacing: -0.015em;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+    .card-info p {
+      font-size: clamp(0.7rem, 0.6vw + 0.4rem, 0.92rem);
+      color: var(--bronze);
+      font-weight: 500;
+    }
+
+    /* ===== Shared Sections ===== */
+    section {
+      padding: var(--section-padding-y) var(--section-padding-x);
+      max-width: var(--container-max);
+      margin: 0 auto;
+      width: 100%;
+    }
+    .section-title {
+      font-size: clamp(1.7rem, 3vw + 0.8rem, 3rem);
+      font-weight: 600;
+      letter-spacing: -0.032em;
+      text-align: center;
+      margin-bottom: clamp(12px, 1.5vw, 20px);
+    }
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-secondary);
+      max-width: 62ch;
+      margin: 0 auto clamp(35px, 5vw, 60px);
+      line-height: 1.7;
+      letter-spacing: -0.006em;
+      font-size: clamp(0.95rem, 0.8vw + 0.6rem, 1.1rem);
+    }
+
+    /* ===== Collections ===== */
+    .discover-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+      gap: clamp(20px, 3vw, 40px);
+    }
+    .grid-item {
+      position: relative;
+      height: clamp(320px, 40vw, 500px);
+      transition: transform 0.55s var(--ease-lux), box-shadow 0.55s var(--ease-lux);
+      cursor: pointer;
+      display: block;
+      overflow: hidden;
+      border-radius: 30px;
+    }
+    .grid-item:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.09), 0 2px 8px rgba(0, 0, 0, 0.02);
+    }
+    .grid-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.9s var(--ease-lux);
+    }
+    .grid-item:hover img { transform: scale(1.045); }
+    .grid-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: clamp(18px, 2.5vw, 30px);
+      background: linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, transparent 100%);
+    }
+    .grid-content h4 {
+      font-size: clamp(1.3rem, 1.5vw + 0.8rem, 2rem);
+      font-weight: 500;
+      letter-spacing: -0.028em;
+      color: var(--text-main);
+      margin-bottom: 5px;
+    }
+    .grid-content span {
+      color: var(--bronze);
+      font-size: clamp(0.75rem, 0.6vw + 0.5rem, 0.95rem);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2.2px;
+    }
+
+    /* ===== Features ===== */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+      gap: clamp(18px, 2.5vw, 30px);
+    }
+    .feature-card {
+      text-align: center;
+      padding: clamp(26px, 3vw, 40px) clamp(16px, 2vw, 20px);
+      background: #ffffff;
+      border-radius: 20px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+      transition: transform 0.5s var(--ease-lux), box-shadow 0.5s var(--ease-lux);
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.06);
+    }
+    .feature-card h3 {
+      color: var(--bronze);
+      font-size: clamp(1.05rem, 0.8vw + 0.7rem, 1.25rem);
+      font-weight: 600;
+      letter-spacing: -0.018em;
+      margin-bottom: 12px;
+    }
+    .feature-card p {
+      color: var(--text-secondary);
+      font-size: clamp(0.9rem, 0.6vw + 0.6rem, 0.98rem);
+      line-height: 1.65;
+    }
+
+    /* ===== Testimonials (UNCHANGED STRUCTURE) ===== */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .testimonial-card {
+      background: #ffffff;
+      padding: 40px 30px;
+      border-radius: 24px;
+      border-left: 4px solid var(--bronze);
+      border-top: 1px solid var(--card-border);
+      border-right: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--card-border);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+      transition: transform 0.5s var(--ease-lux), box-shadow 0.5s var(--ease-lux);
+    }
+    .testimonial-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 44px rgba(0, 0, 0, 0.07);
+    }
+    .testimonial-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .testimonial-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--bronze);
+      background-color: #f0f0f0;
+      flex-shrink: 0;
+    }
+    .testimonial-header-info h4 {
+      color: var(--text-main);
+      font-size: 1.02rem;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      margin-bottom: 2px;
+    }
+    .testimonial-header-info span { color: var(--bronze); font-size: 0.9rem; font-weight: 500; }
+    .testimonial-card p.testimonial-text {
+      font-size: 1.02rem;
+      line-height: 1.72;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    /* ===== Branches ===== */
+    .branches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+      gap: clamp(20px, 3vw, 40px);
+    }
+    .branch-card {
+      background: #ffffff;
+      padding: clamp(28px, 3vw, 40px) clamp(20px, 2.5vw, 30px);
+      border-radius: 24px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+      text-align: center;
+      transition: transform 0.5s var(--ease-lux), box-shadow 0.5s var(--ease-lux);
+    }
+    .branch-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.06);
+    }
+    .branch-card h3 {
+      color: var(--bronze);
+      font-size: clamp(1.15rem, 1vw + 0.7rem, 1.45rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 15px;
+    }
+    .branch-card p {
+      color: var(--text-secondary);
+      font-size: clamp(0.9rem, 0.6vw + 0.6rem, 0.98rem);
+      line-height: 1.8;
+      margin-bottom: 10px;
+    }
+    .branch-card .branch-contact { color: var(--text-main); font-weight: 600; margin-top: 20px; display: block; }
+
+    /* ===== CEO ===== */
+    .ceo-section {
+      padding: var(--section-padding-y) var(--section-padding-x);
+      max-width: var(--container-max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+      gap: clamp(30px, 5vw, 60px);
+      align-items: center;
+    }
+    .ceo-image {
+      width: 100%;
+      max-width: 450px;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      border-radius: 24px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+      margin: 0 auto;
+    }
+    .ceo-content h2 {
+      font-size: clamp(1.8rem, 2.5vw + 0.8rem, 2.5rem);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      margin-bottom: 10px;
+    }
+    .ceo-role {
+      color: var(--bronze);
+      font-size: clamp(0.85rem, 0.6vw + 0.6rem, 1rem);
+      font-weight: 600;
+      letter-spacing: 2.2px;
+      text-transform: uppercase;
+      margin-bottom: 25px;
+    }
+    .ceo-bio {
+      color: var(--text-secondary);
+      line-height: 1.8;
+      font-size: clamp(0.95rem, 0.6vw + 0.7rem, 1.06rem);
+      margin-bottom: 22px;
+    }
+    .ceo-quote {
+      border-left: 3px solid var(--bronze);
+      padding-left: 20px;
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(1rem, 0.8vw + 0.7rem, 1.22rem);
+      line-height: 1.6;
+      color: var(--text-main);
+    }
+
+    /* ===== Collection Pages ===== */
+    .page-header {
+      padding: clamp(120px, 15vw, 160px) var(--section-padding-x) clamp(40px, 5vw, 60px);
+      text-align: center;
+      background: linear-gradient(to bottom, #f4f4f4 0%, #ffffff 100%);
+    }
+    .back-link {
+      display: inline-block;
+      color: var(--bronze);
+      font-size: clamp(0.75rem, 0.5vw + 0.6rem, 0.9rem);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      transition: color 0.3s var(--ease-lux), transform 0.3s var(--ease-lux);
+      cursor: pointer;
+    }
+    .back-link:hover { color: #111111; transform: translateX(-3px); }
+    .page-header h1 {
+      font-size: clamp(1.7rem, 4vw + 0.5rem, 4rem);
+      font-weight: 600;
+      letter-spacing: -0.038em;
+      margin-bottom: 15px;
+    }
+    .page-header p {
+      color: var(--text-secondary);
+      max-width: 60ch;
+      margin: 0 auto;
+      line-height: 1.65;
+      font-size: clamp(0.95rem, 0.8vw + 0.6rem, 1.08rem);
+    }
+
+    .products-section {
+      padding: clamp(30px, 4vw, 60px) var(--section-padding-x) clamp(60px, 8vw, 100px);
+      max-width: var(--container-max);
+      margin: 0 auto;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+      gap: clamp(20px, 3vw, 40px);
+    }
+    .product-card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: clamp(18px, 2vw, 25px);
+      text-align: center;
+      transition: transform 0.5s var(--ease-lux), box-shadow 0.5s var(--ease-lux);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.07);
+    }
+    /* Image wrapper keeps the zoom contained inside the rounded corners */
+    .product-media {
+      overflow: hidden;
+      border-radius: 16px;
+      margin-bottom: 18px;
+      background-color: #f0f0f0;
+    }
+    .product-media img {
+      width: 100%;
+      height: clamp(240px, 30vw, 340px);
+      object-fit: cover;
+      transition: transform 0.9s var(--ease-lux);
+    }
+    .product-card:hover .product-media img { transform: scale(1.05); }
+
+    .product-card h3 {
+      color: var(--text-main);
+      font-size: clamp(1.15rem, 1vw + 0.7rem, 1.45rem);
+      font-weight: 600;
+      letter-spacing: -0.022em;
+      margin-bottom: 10px;
+    }
+    .product-card .notes {
+      color: var(--text-secondary);
+      font-size: clamp(0.85rem, 0.5vw + 0.6rem, 0.94rem);
+      margin-bottom: 15px;
+      min-height: 60px;
+      line-height: 1.55;
+    }
+    .product-card .notes strong { color: var(--bronze); font-weight: 600; }
+    .product-card .price {
+      color: var(--bronze);
+      font-size: clamp(1.15rem, 1vw + 0.7rem, 1.45rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 18px;
+    }
+    .btn-order {
+      display: inline-block;
+      background: transparent;
+      border: 1px solid var(--bronze);
+      color: var(--bronze);
+      padding: clamp(10px, 1vw, 12px) clamp(20px, 2.5vw, 28px);
+      border-radius: 30px;
+      font-size: clamp(0.85rem, 0.5vw + 0.6rem, 0.93rem);
+      font-weight: 500;
+      transition:
+        background-color 0.35s var(--ease-lux),
+        color 0.35s var(--ease-lux),
+        transform 0.35s var(--ease-lux),
+        box-shadow 0.35s var(--ease-lux);
+    }
+    .btn-order:hover {
+      background: var(--bronze);
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(162, 95, 40, 0.22);
+    }
+    .btn-order:active { transform: translateY(0) scale(0.985); }
+
+    /* ===== Footer ===== */
+    footer {
+      background-color: #f0f0f0;
+      border-top: 1px solid #dddddd;
+      padding: clamp(50px, 6vw, 80px) var(--section-padding-x) 30px;
+      color: #111111;
+    }
+    .footer-content {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: clamp(30px, 4vw, 50px);
+    }
+    .footer-brand img { height: clamp(48px, 5vw, 60px); margin-bottom: 20px; }
+    .footer-brand p {
+      color: var(--text-secondary);
+      font-size: clamp(0.9rem, 0.5vw + 0.6rem, 0.98rem);
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+
+    /* Social Icons */
+    .social-icons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .social-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      color: var(--bronze);
+      transition: background-color 0.35s var(--ease-lux),
+                  color 0.35s var(--ease-lux),
+                  transform 0.35s var(--ease-lux),
+                  box-shadow 0.35s var(--ease-lux);
+      flex-shrink: 0;
+    }
+    .social-icon:hover {
+      background: var(--bronze);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(162, 95, 40, 0.25);
+    }
+    .social-icon svg { width: 18px; height: 18px; fill: currentColor; }
+
+    .footer-col h4 {
+      color: var(--bronze);
+      margin-bottom: 22px;
+      font-size: clamp(0.8rem, 0.5vw + 0.6rem, 1rem);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .footer-col a, .footer-col p {
+      color: var(--text-secondary);
+      display: block;
+      margin-bottom: 14px;
+      font-size: clamp(0.85rem, 0.5vw + 0.6rem, 0.97rem);
+      transition: color 0.3s var(--ease-lux), transform 0.3s var(--ease-lux);
+      word-break: break-word;
+    }
+    .footer-col a:hover { color: var(--bronze); }
+
+    .footer-bottom {
+      max-width: var(--container-max);
+      margin: clamp(40px, 5vw, 60px) auto 0;
+      padding-top: 25px;
+      border-top: 1px solid #dddddd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      color: #666666;
+      font-size: clamp(0.75rem, 0.4vw + 0.6rem, 0.88rem);
+    }
+    .footer-bottom a { color: inherit; margin-left: 20px; transition: color 0.3s var(--ease-lux); }
+    .footer-bottom a:hover { color: var(--bronze); }
+    .footer-bottom > div { display: flex; flex-wrap: wrap; gap: 10px; }
+    .footer-bottom > div a { margin-left: 0; }
+
+    .jaywebs-credit {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #dddddd;
+      font-size: clamp(0.75rem, 0.4vw + 0.6rem, 0.88rem);
+      color: #888888;
+      letter-spacing: 0.5px;
+    }
+    .jaywebs-credit span { color: var(--bronze); font-weight: 600; }
+
+    /* ============ RESPONSIVE BREAKPOINTS ============ */
+
+    /* Large tablets */
+    @media (max-width: 1100px) {
+      .nav-links a { padding: 8px 10px; margin: 0; }
+      .nav-links a::after { left: 10px; right: 10px; }
+    }
+
+    /* Tablets */
+    @media (max-width: 950px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      .hero-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .hero-content { max-width: 100%; }
+      .hero-subtitle { margin-left: auto; margin-right: auto; }
+      .carousel-container {
+        width: 100%;
+        max-width: 400px;
+        height: 380px;
+        margin-top: 30px;
+      }
+      .carousel-card {
+        right: auto;
+        left: 50%;
+        transform-origin: center center;
+        width: 240px;
+        height: 340px;
+      }
+
+      .ceo-section { grid-template-columns: 1fr; text-align: center; }
+      .ceo-image { max-width: 380px; }
+
+      .footer-content { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* Phones */
+    @media (max-width: 640px) {
+      .navbar { padding: 0 12px; gap: 8px; }
+
+      .btn-primary { padding: 10px 14px; font-size: 0.8rem; }
+
+      .hero { padding-top: 110px; }
+
+      .carousel-container { height: 320px; max-width: 320px; }
+      .carousel-card { width: 200px; height: 290px; padding: 10px; }
+      .card-image { height: 72%; }
+
+      .grid-item { height: 320px; }
+
+      .product-media img { height: 280px; }
+
+      .footer-content { grid-template-columns: 1fr; gap: 30px; }
+
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .footer-bottom > div { justify-content: center; }
+
+      .social-icons { justify-content: flex-start; }
+    }
+
+    /* Small phones */
+    @media (max-width: 380px) {
+      .logo img { height: 42px; }
+      .btn-primary { padding: 9px 12px; font-size: 0.75rem; }
+
+      .hero-title { font-size: 1.8rem; }
+      .section-title { font-size: 1.5rem; }
+
+      .carousel-container { height: 280px; max-width: 280px; }
+      .carousel-card { width: 180px; height: 260px; }
+
+      .testimonial-card { padding: 28px 20px; }
+    }
+
+    /* Landscape phones */
+    @media (max-height: 500px) and (orientation: landscape) {
+      .hero { min-height: auto; padding: 100px 0 40px; }
+      .hero-bg-text { display: none; }
+      .carousel-container { height: 260px; margin-top: 20px; }
+      .carousel-card { height: 240px; width: 170px; }
+    }
+
+    /* ============ REDUCED MOTION ============ */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        transition-delay: 0ms !important;
+      }
+
+      .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      .navbar { transition: none !important; }
+      .navbar.nav-hidden {
+        transform: translateX(-50%) translateY(calc(-100% - 24px));
+        opacity: 0;
+      }
+
+      .grid-item:hover,
+      .product-card:hover,
+      .feature-card:hover,
+      .branch-card:hover,
+      .testimonial-card:hover { transform: none !important; }
+
+      .grid-item:hover img,
+      .product-card:hover .product-media img { transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Navigation ===== -->
+  <nav class="navbar liquid-glass" id="main-nav">
+    <div class="logo" onclick="showView('home-view')">
+      <img src="https://i.postimg.cc/1RDS5VCd/drr.png" alt="Dr Scenteology Logo">
+    </div>
+    <div class="nav-links">
+      <a onclick="showView('home-view')" id="nav-home" class="active">Home</a>
+      <a onclick="showView('mens-view')" id="nav-mens">Men</a>
+      <a onclick="showView('womens-view')" id="nav-womens">Women</a>
+      <a onclick="showView('home-view', 'ceo-section')" id="nav-ceo">Our CEO</a>
+      <a onclick="showView('home-view', 'testimonials-section')" id="nav-testimonials">Testimonials</a>
+      <a onclick="showView('home-view', 'branches-section')" id="nav-branches">Branches</a>
+    </div>
+    <a href="https://wa.me/27632411975" class="btn-primary">Order on WhatsApp</a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a onclick="showView('home-view'); closeMenu()" class="active">Home</a>
+    <a onclick="showView('mens-view'); closeMenu()">Men</a>
+    <a onclick="showView('womens-view'); closeMenu()">Women</a>
+    <a onclick="showView('home-view', 'ceo-section'); closeMenu()">Our CEO</a>
+    <a onclick="showView('home-view', 'testimonials-section'); closeMenu()">Testimonials</a>
+    <a onclick="showView('home-view', 'branches-section'); closeMenu()">Branches</a>
+  </div>
+
+  <!-- ================= HOME VIEW ================= -->
+  <div id="home-view" class="view">
+    <section class="hero" id="about">
+      <div class="hero-bg-text" id="parallax-text">SCENTEOLOGY</div>
+      <div class="hero-container">
+        <div class="hero-content">
+          <h1 class="hero-title reveal" style="--rd:60ms">Prescribed<br>For <em>Lasting</em> Impressions</h1>
+          <p class="hero-subtitle reveal" style="--rd:200ms">Introducing our Signature Collection. Six premium 50ml fragrances that reflect confidence, elegance, and individuality. R150 each.</p>
+        </div>
+        <div class="carousel-container reveal" style="--rd:340ms">
+          <div class="carousel-track" id="carousel">
+            <div class="carousel-card liquid-glass clay-border">
+              <div class="card-image" style="background-image: url('https://i.postimg.cc/6qDJptsZ/SCE.jpg');"></div>
+              <div class="card-info"><h3>Royal Legacy</h3><p>Men's Signature</p></div>
+            </div>
+            <div class="carousel-card liquid-glass clay-border">
+              <div class="card-image" style="background-image: url('https://i.postimg.cc/ZY30CGrS/drrrrr.png');"></div>
+              <div class="card-info"><h3>Dean's List</h3><p>Men's Signature</p></div>
+            </div>
+            <div class="carousel-card liquid-glass clay-border">
+              <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1587017539504-67cfbddac569?q=80&w=600&auto=format&fit=crop');"></div>
+              <div class="card-info"><h3>The Chancellor</h3><p>Men's Signature</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Collections -->
+    <section id="collections">
+      <h2 class="section-title reveal">Discover Our <em>Collections</em></h2>
+      <p class="section-subtitle reveal" style="--rd:120ms">Explore our premium fragrances, carefully crafted for confidence and elegance. Click a collection to view all scents.</p>
+
+      <div class="discover-grid" data-stagger="120" data-stagger-start="200">
+        <a onclick="showView('mens-view')" class="grid-item chunky-clay reveal">
+          <img src="https://images.pexels.com/photos/14687024/pexels-photo-14687024.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Men's Collection">
+          <div class="grid-content">
+            <span>For Him</span>
+            <h4>Men's Collection</h4>
+          </div>
+        </a>
+        <a onclick="showView('womens-view')" class="grid-item chunky-clay reveal">
+          <img src="https://i.pinimg.com/736x/f0/cc/79/f0cc79c112069cb0fcd416aeef5d4cac.jpg" alt="Women's Collection">
+          <div class="grid-content">
+            <span>For Her</span>
+            <h4>Women's Collection</h4>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section id="features">
+      <h2 class="section-title reveal">Why Choose <em>Us</em></h2>
+      <p class="section-subtitle reveal" style="--rd:120ms">We are committed to providing a premium experience with every bottle.</p>
+      <div class="features-grid" data-stagger="90" data-stagger-start="180">
+        <div class="feature-card reveal">
+          <h3>Long-Lasting</h3>
+          <p>Our formulations are designed to stay with you all day, leaving a memorable trail wherever you go.</p>
+        </div>
+        <div class="feature-card reveal">
+          <h3>Premium Quality</h3>
+          <p>We source only the finest ingredients to ensure a luxurious and authentic fragrance experience.</p>
+        </div>
+        <div class="feature-card reveal">
+          <h3>Locally Owned</h3>
+          <p>Proudly South African. We support local communities and bring world-class scents to your doorstep.</p>
+        </div>
+        <div class="feature-card reveal">
+          <h3>Affordable Luxury</h3>
+          <p>Experience the elegance of high-end perfume without the premium price tag. R150 each.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials (unchanged) -->
+    <section id="testimonials-section">
+      <h2 class="section-title reveal">What Our <em>Customers</em> Say</h2>
+      <p class="section-subtitle reveal" style="--rd:120ms">Don't just take our word for it. Here is what people are saying about Dr Scenteology.</p>
+      <div class="testimonials-grid" data-stagger="110" data-stagger-start="180">
+        <div class="testimonial-card reveal">
+          <div class="testimonial-header">
+            <img src="" alt="Thabo M." class="testimonial-avatar">
+            <div class="testimonial-header-info">
+              <h4>Thabo.</h4>
+              <span>Polokwane</span>
+            </div>
+          </div>
+          <p class="testimonial-text">"The Royal Legacy scent is incredible. It lasts the entire day and I get compliments everywhere I go. Highly recommended!"</p>
+        </div>
+        <div class="testimonial-card reveal">
+          <div class="testimonial-header">
+            <img src="" alt="Sipho K." class="testimonial-avatar">
+            <div class="testimonial-header-info">
+              <h4>Luthando.</h4>
+              <span>Pretoria</span>
+            </div>
+          </div>
+          <p class="testimonial-text">"I bought the First Lady perfume for my wife and she absolutely loves it. The packaging is elegant and the scent is beautiful."</p>
+        </div>
+        <div class="testimonial-card reveal">
+          <div class="testimonial-header">
+            <img src="" alt="Lerato P." class="testimonial-avatar">
+            <div class="testimonial-header-info">
+              <h4>Somisa.</h4>
+              <span>Mageva Village</span>
+            </div>
+          </div>
+          <p class="testimonial-text">"Amazing quality for the price. I ordered the Campus Queen and it has become my daily signature scent. Fast delivery too!"</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Branches -->
+    <section id="branches-section">
+      <h2 class="section-title reveal">Our <em>Branches</em></h2>
+      <p class="section-subtitle reveal" style="--rd:120ms">Visit us at any of our locations across South Africa.</p>
+      <div class="branches-grid" data-stagger="90" data-stagger-start="180">
+        <div class="branch-card reveal">
+          <h3>Pretoria (Main Branch)</h3>
+          <p>Main Office &amp; Warehouse</p>
+          <p>123 Main Street, Pretoria CBD, 0002</p>
+          <span class="branch-contact">Contact: Matimba Mthombeni</span>
+        </div>
+        <div class="branch-card reveal">
+          <h3>Polokwane</h3>
+          <p>Retail &amp; Distribution</p>
+          <p>45 Church Street, Polokwane Central, 0699</p>
+          <span class="branch-contact">Contact: 063 241 1975</span>
+        </div>
+        <div class="branch-card reveal">
+          <h3>Mageva Village</h3>
+          <p>Community Pickup Point</p>
+          <p>Main Road, Mageva Village, Limpopo</p>
+          <span class="branch-contact">Contact: 063 241 1975</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CEO -->
+    <section class="ceo-section" id="ceo-section">
+      <img src="https://i.postimg.cc/m2zTf6xN/778972297-122261440754130465-7199950476903255953-n.jpg" alt="Matimba Mthombeni - Founder & CEO" class="ceo-image reveal">
+      <div class="ceo-content reveal" style="--rd:150ms">
+        <h2>Meet the <em>Founder</em></h2>
+        <p class="ceo-role">Matimba Mthombeni &mdash; Founder &amp; CEO</p>
+        <p class="ceo-bio">
+          Matimba Mthombeni is the visionary behind Dr Scenteology Fragrances. Driven by a passion for
+          distinctive scents and a belief that fragrance is a form of self-expression, he founded the
+          brand to make premium-quality perfumes accessible to everyone in South Africa.
+        </p>
+        <p class="ceo-bio">
+          Under his leadership, Dr Scenteology has grown into a trusted name, offering carefully curated
+          fragrances that reflect confidence, elegance, and individuality. His commitment to quality
+          and customer satisfaction remains at the heart of everything the company does.
+        </p>
+        <blockquote class="ceo-quote">
+          "A fragrance is not just a scent &mdash; it's a prescription for the impression you leave behind."
+        </blockquote>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================= MEN'S VIEW ================= -->
+  <div id="mens-view" class="view hidden">
+    <header class="page-header">
+      <a onclick="showView('home-view')" class="back-link">&larr; Back to Home</a>
+      <h1 class="reveal">Men's <em>Signature</em> Collection</h1>
+      <p class="reveal" style="--rd:130ms">Three bold, long-lasting fragrances crafted for the modern gentleman. R150 each.</p>
+    </header>
+
+    <section class="products-section">
+      <div class="product-grid" data-stagger="90" data-stagger-start="120">
+        <div class="product-card reveal">
+          <div class="product-media">
+            <img src="https://i.postimg.cc/6qDJptsZ/SCE.jpg" alt="Royal Legacy">
+          </div>
+          <h3>Fragrance World Intense Man 100ml Eau de Parfum</h3>
+          <p class="notes"><strong>Notes:</strong> Bergamot, Lavender, Cedarwood</p>
+          <p class="notes">A rich, woody signature for those who leave a mark.</p>
+          <p class="price">R150</p>
+          <a href="https://chucheriaspr.com/cdn/shop/files/26BCD73F-4402-46E2-B418-1B74DC88A404.png?v=1730563653" class="btn-order">Order Now</a>
+        </div>
+        <div class="product-card reveal">
+          <div class="product-media">
+            <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?q=80&w=600&auto=format&fit=crop" alt="Dean's List">
+          </div>
+          <h3>Dean's List</h3>
+          <p class="notes"><strong>Notes:</strong> Mint, Green Apple, Vetiver</p>
+          <p class="notes">Sharp, confident, and refined &mdash; a scent of achievement.</p>
+          <p class="price">R150</p>
+          <a href="https://wa.me/27632411975?text=Hi,%20I'd%20like%20to%20order%20Dean's%20List" class="btn-order">Order Now</a>
+        </div>
+        <div class="product-card reveal">
+          <div class="product-media">
+            <img src="https://images.unsplash.com/photo-1587017539504-67cfbddac569?q=80&w=600&auto=format&fit=crop" alt="The Chancellor">
+          </div>
+          <h3>The Chancellor</h3>
+          <p class="notes"><strong>Notes:</strong> Spice, Leather, Amber</p>
+          <p class="notes">A commanding presence with deep, lasting character.</p>
+          <p class="price">R150</p>
+          <a href="https://wa.me/27632411975?text=Hi,%20I'd%20like%20to%20order%20The%20Chancellor" class="btn-order">Order Now</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================= WOMEN'S VIEW ================= -->
+  <div id="womens-view" class="view hidden">
+    <header class="page-header">
+      <a onclick="showView('home-view')" class="back-link">&larr; Back to Home</a>
+      <h1 class="reveal">Women's <em>Signature</em> Collection</h1>
+      <p class="reveal" style="--rd:130ms">Three elegant, captivating fragrances designed for the modern woman. R150 each.</p>
+    </header>
+
+    <section class="products-section">
+      <div class="product-grid" data-stagger="90" data-stagger-start="120">
+        <div class="product-card reveal">
+          <div class="product-media">
+            <img src="https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?q=80&w=600&auto=format&fit=crop" alt="First Lady">
+          </div>
+          <h3>First Lady</h3>
+          <p class="notes"><strong>Notes:</strong> Rose, Jasmine, Vanilla</p>
+          <p class="notes">Graceful, floral, and timeless &mdash; a scent of quiet power.</p>
+          <p class="price">R150</p>
+          <a href="https://wa.me/27632411975?text=Hi,%20I'd%20like%20to%20order%20First%20Lady" class="btn-order">Order Now</a>
+        </div>
+        <div class="product-card reveal">
+          <div class="product-media">
+            <img src="https://images.unsplash.com/photo-1590736969955-71cc94901144?q=80&w=600&auto=format&fit=crop" alt="Campus Queen">
+          </div>
+          <h3>Campus Queen</h3>
+          <p class="notes"><strong>Notes:</strong> Citrus, Peony, Musk</p>
+          <p class="notes">Fresh, youthful, and vibrant &mdash; perfect for every day.</p>
+          <p class="price">R150</p>
+          <a href="https://wa.me/27632411975?text=Hi,%20I'd%20like%20to%20order%20Campus%20Queen" class="btn-order">Order Now</a>
+        </div>
+        <div class="product-card reveal">
+          <div class="product-media">
+            <img src="https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?q=80&w=600&auto=format&fit=crop" alt="Royal Flower">
+          </div>
+          <h3>Royal Flower</h3>
+          <p class="notes"><strong>Notes:</strong> Orchid, Freesia, Sandalwood</p>
+          <p class="notes">Rich, romantic, and luxurious &mdash; for unforgettable moments.</p>
+          <p class="price">R150</p>
+          <a href="https://wa.me/27632411975?text=Hi,%20I'd%20like%20to%20order%20Royal%20Flower" class="btn-order">Order Now</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer id="contact">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <img src="https://i.postimg.cc/1RDS5VCd/drr.png" alt="Dr Scenteology Logo">
+        <p>Prescribed for Lasting Impressions. Premium 50ml fragrances crafted for men and women across South Africa.</p>
+
+        <!-- Social Media Icons -->
+        <div class="social-icons">
+          <!-- Facebook -->
+          <a href="https://facebook.com" target="_blank" rel="noopener" class="social-icon" aria-label="Facebook" title="Facebook: Dr Scenteology Fragrances">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22 12a10 10 0 10-11.56 9.87v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.45 2.88h-2.33v6.99A10 10 0 0022 12z"/>
+            </svg>
+          </a>
+
+          <!-- WhatsApp -->
+          <a href="https://wa.me/27632411975" target="_blank" rel="noopener" class="social-icon" aria-label="WhatsApp" title="WhatsApp: 063 241 1975">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51-.17-.01-.37-.01-.57-.01-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.22 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.19 1.87.12.57-.08 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35zM12.05 21.5h-.01a9.43 9.43 0 01-4.8-1.31l-.34-.2-3.57.94.95-3.48-.22-.36A9.42 9.42 0 012.6 12.05c0-5.2 4.24-9.44 9.45-9.44 2.52 0 4.89.98 6.67 2.76a9.37 9.37 0 012.76 6.68c0 5.21-4.24 9.45-9.43 9.45zM20.5 3.5A11.9 11.9 0 0012.05.5C5.5.5.18 5.82.17 12.36c0 2.09.55 4.13 1.59 5.93L.07 24.5l6.37-1.67a11.9 11.9 0 005.61 1.43h.01c6.55 0 11.88-5.32 11.89-11.86a11.8 11.8 0 00-3.45-8.4z"/>
+            </svg>
+          </a>
+
+          <!-- Instagram -->
+          <a href="https://instagram.com" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram" title="Instagram: @drscenteology">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.72 3.72 0 01-1.38-.9 3.72 3.72 0 01-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.3-1.46.72-2.12 1.38C1.35 2.67.94 3.35.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.79.72 1.46 1.38 2.12.66.66 1.33 1.08 2.12 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.3 1.46-.72 2.12-1.38.66-.66 1.08-1.33 1.38-2.12.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.3-.79-.72-1.46-1.38-2.12A5.86 5.86 0 0019.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 100 12.32 6.16 6.16 0 000-12.32zM12 16a4 4 0 110-8 4 4 0 010 8zm7.85-10.4a1.44 1.44 0 11-2.88 0 1.44 1.44 0 012.88 0z"/>
+            </svg>
+          </a>
+
+          <!-- TikTok -->
+          <a href="https://tiktok.com" target="_blank" rel="noopener" class="social-icon" aria-label="TikTok" title="TikTok: @drscenteology">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64c.3 0 .58.04.85.13V9.4a6.33 6.33 0 00-5.4 10.62 6.33 6.33 0 0010.86-4.48V8.69a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.12z"/>
+            </svg>
+          </a>
+
+          <!-- Email -->
+          <a href="mailto:info@drscenteology.co.za" class="social-icon" aria-label="Email" title="Email: info@drscenteology.co.za">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4.24l-8 5-8-5V6l8 5 8-5v2.24z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a onclick="showView('home-view')" style="cursor: pointer;">Home</a>
+        <a onclick="showView('mens-view')" style="cursor: pointer;">Men's Collection</a>
+        <a onclick="showView('womens-view')" style="cursor: pointer;">Women's Collection</a>
+        <a onclick="showView('home-view', 'ceo-section')" style="cursor: pointer;">Our CEO</a>
+        <a onclick="showView('home-view', 'testimonials-section')" style="cursor: pointer;">Testimonials</a>
+        <a onclick="showView('home-view', 'branches-section')" style="cursor: pointer;">Branches</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <a href="https://facebook.com" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://tiktok.com" target="_blank" rel="noopener">TikTok</a>
+        <a href="https://wa.me/27632411975" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="mailto:info@drscenteology.co.za">Email Us</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="https://wa.me/27632411975">WhatsApp: 063 241 1975</a>
+        <a href="mailto:info@drscenteology.co.za">info@drscenteology.co.za</a>
+        <p>Pretoria (Main) &middot; Polokwane &middot; Mageva Village</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 Dr Scenteology Fragrances - Pty Ltd. All rights reserved.</p>
+      <div>
+        <a href="#">Terms &amp; Conditions</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Reg No: [CIPC Number]</a>
+      </div>
+    </div>
+
+    <div class="jaywebs-credit">
+      Website by <span>JayWebs</span>
+    </div>
+  </footer>
+
+  <!-- GSAP core — powers the perfume carousel rotation on the home screen -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <script>
+  (function () {
+    'use strict';
+
+    /* =========================================================
+       0. SETUP
+       ========================================================= */
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var scrollBehavior = prefersReduced ? 'auto' : 'smooth';
+
+    var nav         = document.getElementById('main-nav');
+    var hamburger   = document.getElementById('hamburger');
+    var mobileMenu  = document.getElementById('mobile-menu');
+    var homeView    = document.getElementById('home-view');
+    var heroEl      = document.querySelector('.hero');
+    var heroBgText  = document.getElementById('parallax-text');
+    var carousel    = document.getElementById('carousel');
+
+    var REVEAL_TOTAL_MS = 900; // transition duration + small buffer
+
+    /* =========================================================
+       1. MOBILE MENU
+       ========================================================= */
+    function closeMenu() {
+      hamburger.classList.remove('active');
+      mobileMenu.classList.remove('open');
+    }
+    window.closeMenu = closeMenu;
+
+    hamburger.addEventListener('click', function (e) {
+      e.stopPropagation();
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('open');
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
+        closeMenu();
+      }
+    });
+
+    /* =========================================================
+       2. SCROLL REVEAL ANIMATIONS  (Intersection Observer)
+       ========================================================= */
+    var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+
+    /* Auto-stagger children of any [data-stagger] group */
+    document.querySelectorAll('[data-stagger]').forEach(function (group) {
+      var step  = parseInt(group.getAttribute('data-stagger'), 10) || 90;
+      var start = parseInt(group.getAttribute('data-stagger-start'), 10) || 0;
+      var kids  = group.querySelectorAll(':scope > .reveal');
+      Array.prototype.forEach.call(kids, function (el, i) {
+        if (!el.style.getPropertyValue('--rd')) {
+          el.style.setProperty('--rd', (start + i * step) + 'ms');
+        }
+      });
+    });
+
+    /* Reveals an element, then strips the animation classes so that
+       hover transforms on the same element behave normally afterwards. */
+    function revealEl(el) {
+      if (el.classList.contains('is-visible')) return;
+      el.classList.add('is-visible');
+
+      var delay = parseFloat(el.style.getPropertyValue('--rd')) || 0;
+      window.setTimeout(function () {
+        el.classList.remove('reveal', 'is-visible');
+        el.style.removeProperty('--rd');
+      }, delay + REVEAL_TOTAL_MS);
+    }
+
+    var observer = null;
+
+    if ('IntersectionObserver' in window && !prefersReduced) {
+      observer = new IntersectionObserver(function (entries, obs) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            revealEl(entry.target);
+            obs.unobserve(entry.target);
+          }
+        });
+      }, {
+        root: null,
+        rootMargin: '0px 0px -8% 0px',
+        threshold: 0.08
+      });
+
+      revealEls.forEach(function (el) { observer.observe(el); });
+    } else {
+      /* Fallback / reduced motion: show everything immediately */
+      revealEls.forEach(function (el) {
+        el.classList.add('is-visible');
+      });
+    }
+
+    /* Safety net used after SPA view switches — handles the rare case
+       where a browser doesn't re-fire IntersectionObserver on display change. */
+    function revealInViewport(root) {
+      if (!root || !observer) return;
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      root.querySelectorAll('.reveal:not(.is-visible)').forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        if (r.top < vh * 0.92 && r.bottom > -40) {
+          revealEl(el);
+          observer.unobserve(el);
+        }
+      });
+    }
+
+    /* =========================================================
+       3. DISAPPEARING HEADER
+       ========================================================= */
+    var lastY = window.scrollY || window.pageYOffset || 0;
+    var ticking = false;
+    var heroHeight = heroEl ? heroEl.offsetHeight : 0;
+
+    function updateHeader(y) {
+      var delta = y - lastY;
+
+      /* Always visible at the very top of the page */
+      if (y <= 60) {
+        nav.classList.remove('nav-hidden');
+        lastY = y;
+        return;
+      }
+
+      /* Hysteresis: ignore tiny scroll movements to prevent flicker */
+      if (Math.abs(delta) < 8) return;
+
+      if (delta > 0) {
+        nav.classList.add('nav-hidden');   /* scrolling DOWN → hide */
+        closeMenu();
+      } else {
+        nav.classList.remove('nav-hidden'); /* scrolling UP → show */
+      }
+
+      lastY = y;
+    }
+
+    function onScrollFrame() {
+      ticking = false;
+      var y = Math.max(0, window.scrollY || window.pageYOffset || 0);
+
+      updateHeader(y);
+
+      /* Very subtle decorative parallax on the oversized hero word */
+      if (heroBgText && !prefersReduced && heroHeight && y < heroHeight) {
+        var p = y / heroHeight;
+        heroBgText.style.transform =
+          'translate(-50%, calc(-50% + ' + (p * 80).toFixed(1) + 'px))';
+      }
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(onScrollFrame);
+      }
+    }, { passive: true });
+
+    /* =========================================================
+       4. CAROUSEL  (original GSAP behaviour — restored)
+          Cards rotate: active card centre, others slide back & fade
+       ========================================================= */
+    var updateCarousel = function () {};
+
+    if (carousel && window.gsap) {
+      var cards = Array.prototype.slice.call(carousel.querySelectorAll('.carousel-card'));
+      var totalCards = cards.length;
+      var currentIndex = 0;
+
+      var isMobile = function () { return window.innerWidth <= 950; };
+
+      updateCarousel = function () {
+        var mobile = isMobile();
+        var baseX1 = mobile ? -140 : -220;
+        var baseX2 = mobile ? -260 : -400;
+
+        cards.forEach(function (card, index) {
+          var relativeIndex = (index - currentIndex + totalCards) % totalCards;
+          var xOffset, zOffset, scale, opacity, zIndex;
+
+          if (relativeIndex === 0) {
+            xOffset = 0;      zOffset = 0;    scale = 1;   opacity = 1;   zIndex = 10;
+          } else if (relativeIndex === 1) {
+            xOffset = baseX1; zOffset = -150; scale = 0.9; opacity = 0.7; zIndex = 5;
+          } else if (relativeIndex === 2) {
+            xOffset = baseX2; zOffset = -300; scale = 0.8; opacity = 0.3; zIndex = 1;
+          } else {
+            xOffset = -100;   zOffset = -500; scale = 0.8; opacity = 0;   zIndex = 0;
+          }
+
+          gsap.to(card, {
+            x: xOffset,
+            z: zOffset,
+            scale: scale,
+            opacity: opacity,
+            zIndex: zIndex,
+            duration: 0.8,
+            ease: 'power3.out'
+          });
+        });
+      };
+
+      updateCarousel();
+
+      window.setInterval(function () {
+        if (document.hidden) return;
+        if (homeView && homeView.classList.contains('hidden')) return;
+        currentIndex = (currentIndex + 1) % totalCards;
+        updateCarousel();
+      }, 4000);
+    }
+
+    /* =========================================================
+       5. SPA VIEW NAVIGATION
+       ========================================================= */
+    var navMap = {
+      'home-view':   { desktop: 'nav-home',   mobileIndex: 1 },
+      'mens-view':   { desktop: 'nav-mens',   mobileIndex: 2 },
+      'womens-view': { desktop: 'nav-womens', mobileIndex: 3 }
+    };
+
+    function showView(viewId, scrollToId) {
+      closeMenu();
+
+      document.querySelectorAll('.view').forEach(function (v) {
+        v.classList.add('hidden');
+      });
+
+      var target = document.getElementById(viewId);
+      if (!target) return;
+      target.classList.remove('hidden');
+
+      /* Active nav states (desktop + mobile) */
+      document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(function (a) {
+        a.classList.remove('active');
+      });
+
+      var entry = navMap[viewId];
+      if (entry) {
+        var dLink = document.getElementById(entry.desktop);
+        if (dLink) dLink.classList.add('active');
+        var mLink = mobileMenu.querySelector('a:nth-child(' + entry.mobileIndex + ')');
+        if (mLink) mLink.classList.add('active');
+      }
+
+      window.requestAnimationFrame(function () {
+        if (scrollToId) {
+          var el = document.getElementById(scrollToId);
+          if (el) {
+            el.scrollIntoView({ behavior: scrollBehavior, block: 'start' });
+          }
+        } else {
+          window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+        }
+
+        nav.classList.remove('nav-hidden');
+        lastY = Math.max(0, window.scrollY || 0);
+
+        updateCarousel();
+        revealInViewport(target);
+      });
+    }
+    window.showView = showView;
+
+    /* =========================================================
+       6. RESIZE HANDLING (debounced)
+       ========================================================= */
+    var resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        heroHeight = heroEl ? heroEl.offsetHeight : 0;
+        updateCarousel();
+      }, 180);
+    }, { passive: true });
+
+    /* Initialise header state on load (e.g. refreshed mid-page) */
+    window.requestAnimationFrame(function () {
+      lastY = Math.max(0, window.scrollY || 0);
+      if (lastY > 60) nav.classList.remove('nav-hidden');
+    });
+
+  })();
+  </script>
+</body>
+</html>
