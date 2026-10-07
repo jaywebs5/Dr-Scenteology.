@@ -190,6 +190,8 @@
         box-shadow 0.35s var(--ease-lux);
       white-space: nowrap;
       flex-shrink: 0;
+      display: inline-block;
+      text-align: center;
     }
     .btn-primary:hover {
       background-color: var(--bronze-dark);
@@ -337,7 +339,6 @@
       padding: clamp(10px, 1.2vw, 15px);
       display: flex;
       flex-direction: column;
-      /* Original CSS transition — kept so the rotation feels the same */
       transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
       transform-origin: center right;
       will-change: transform, opacity;
@@ -468,7 +469,7 @@
       line-height: 1.65;
     }
 
-    /* ===== Testimonials (UNCHANGED STRUCTURE) ===== */
+    /* ===== Testimonials ===== */
     .testimonials-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -659,7 +660,6 @@
       transform: translateY(-6px);
       box-shadow: 0 18px 40px rgba(0,0,0,0.07);
     }
-    /* Image wrapper keeps the zoom contained inside the rounded corners */
     .product-media {
       overflow: hidden;
       border-radius: 16px;
@@ -710,6 +710,7 @@
         color 0.35s var(--ease-lux),
         transform 0.35s var(--ease-lux),
         box-shadow 0.35s var(--ease-lux);
+      cursor: pointer;
     }
     .btn-order:hover {
       background: var(--bronze);
@@ -818,6 +819,157 @@
       letter-spacing: 0.5px;
     }
     .jaywebs-credit span { color: var(--bronze); font-weight: 600; }
+
+    /* ============ CHECKOUT MODAL ============ */
+    .checkout-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(17, 17, 17, 0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s var(--ease-lux), visibility 0.35s var(--ease-lux);
+    }
+    .checkout-overlay.open { opacity: 1; visibility: visible; }
+
+    .checkout-modal {
+      position: relative;
+      background: #ffffff;
+      border-radius: 24px;
+      width: 100%;
+      max-width: 480px;
+      max-height: 92vh;
+      overflow-y: auto;
+      padding: clamp(24px, 4vw, 40px);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+      transform: translateY(20px) scale(0.98);
+      transition: transform 0.45s var(--ease-lux);
+      border: 1px solid var(--card-border);
+    }
+    .checkout-overlay.open .checkout-modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .checkout-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.6rem;
+      line-height: 1;
+      color: var(--text-secondary);
+      background: rgba(0, 0, 0, 0.04);
+      transition: background-color 0.25s var(--ease-lux), color 0.25s var(--ease-lux);
+    }
+    .checkout-close:hover { background: rgba(162, 95, 40, 0.12); color: var(--bronze); }
+
+    .checkout-modal h2 {
+      font-size: clamp(1.35rem, 2vw + 0.6rem, 1.7rem);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      margin-bottom: 12px;
+      padding-right: 30px;
+    }
+    .checkout-product-name {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+    .checkout-product-price {
+      color: var(--bronze);
+      font-size: 1.4rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+
+    .checkout-field { margin-bottom: 16px; }
+    .checkout-field label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-main);
+      margin-bottom: 6px;
+      letter-spacing: -0.005em;
+    }
+    .checkout-field input,
+    .checkout-field textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      background: #fafafa;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      transition: border-color 0.25s var(--ease-lux), background-color 0.25s var(--ease-lux);
+      box-sizing: border-box;
+      resize: vertical;
+    }
+    .checkout-field input:focus,
+    .checkout-field textarea:focus {
+      outline: none;
+      border-color: var(--bronze);
+      background: #ffffff;
+    }
+
+    .checkout-pay-btn {
+      width: 100%;
+      margin-top: 8px;
+      padding: 14px 20px;
+      font-size: 1rem;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+    }
+    .checkout-pay-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .checkout-secure {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-top: 14px;
+    }
+
+    /* Success screen */
+    .checkout-success { text-align: center; padding: 12px 0; }
+    .checkout-success-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      background: rgba(162, 95, 40, 0.1);
+      color: var(--bronze);
+      font-size: 2rem;
+      line-height: 64px;
+      font-weight: 600;
+    }
+    .checkout-success h2 { padding-right: 0; margin-bottom: 14px; }
+    .checkout-success p {
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+      line-height: 1.6;
+      font-size: 0.98rem;
+    }
+    .checkout-ref {
+      font-size: 0.85rem !important;
+      color: var(--text-main) !important;
+      margin-bottom: 24px !important;
+    }
+    .checkout-ref span { color: var(--bronze); font-weight: 600; }
+    .checkout-success .btn-primary { padding: 12px 28px; }
 
     /* ============ RESPONSIVE BREAKPOINTS ============ */
 
@@ -953,7 +1105,7 @@
       <a onclick="showView('home-view', 'testimonials-section')" id="nav-testimonials">Testimonials</a>
       <a onclick="showView('home-view', 'branches-section')" id="nav-branches">Branches</a>
     </div>
-    <a href="https://wa.me/27632411975" class="btn-primary">Order on WhatsApp</a>
+    <a onclick="showView('mens-view')" class="btn-primary" style="cursor:pointer;">Shop Now</a>
     <button class="hamburger" id="hamburger" aria-label="Toggle menu">
       <span></span><span></span><span></span>
     </button>
@@ -1044,7 +1196,7 @@
       </div>
     </section>
 
-    <!-- Testimonials (unchanged) -->
+    <!-- Testimonials -->
     <section id="testimonials-section">
       <h2 class="section-title reveal">What Our <em>Customers</em> Say</h2>
       <p class="section-subtitle reveal" style="--rd:120ms">Don't just take our word for it. Here is what people are saying about Dr Scenteology.</p>
@@ -1149,7 +1301,7 @@
           <p class="notes"><strong>Notes:</strong> Bergamot, Lavender, Cedarwood</p>
           <p class="notes">A rich, woody signature for those who leave a mark.</p>
           <p class="price">R150</p>
-          <a href="https://chucheriaspr.com/cdn/shop/files/26BCD73F-4402-46E2-B418-1B74DC88A404.png?v=1730563653" class="btn-order">Order Now</a>
+          <button class="btn-order" data-product="Fragrance World Intense Man 100ml EDP" data-price="150" onclick="openCheckout(this)">Order Now</button>
         </div>
         <div class="product-card reveal">
           <div class="product-media">
@@ -1159,7 +1311,7 @@
           <p class="notes"><strong>Notes:</strong> Mint, Green Apple, Vetiver</p>
           <p class="notes">Sharp, confident, and refined &mdash; a scent of achievement.</p>
           <p class="price">R150</p>
-          <a href="https://wa.me/27632411975?text=Hi,%20I'd%20like%20to%20order%20Dean's%20List" class="btn-order">Order Now</a>
+          <button class="btn-order" data-product="Dean's List" data-price="150" onclick="openCheckout(this)">Order Now</button>
         </div>
         <div class="product-card reveal">
           <div class="product-media">
@@ -1169,7 +1321,7 @@
           <p class="notes"><strong>Notes:</strong> Spice, Leather, Amber</p>
           <p class="notes">A commanding presence with deep, lasting character.</p>
           <p class="price">R150</p>
-          <a href="https://wa.me/27632411975?text=Hi,%20I'd%20like%20to%20order%20The%20Chancellor" class="btn-order">Order Now</a>
+          <button class="btn-order" data-product="The Chancellor" data-price="150" onclick="openCheckout(this)">Order Now</button>
         </div>
       </div>
     </section>
@@ -1193,7 +1345,7 @@
           <p class="notes"><strong>Notes:</strong> Rose, Jasmine, Vanilla</p>
           <p class="notes">Graceful, floral, and timeless &mdash; a scent of quiet power.</p>
           <p class="price">R150</p>
-          <a href="https://wa.me/27632411975?text=Hi,%20I'd%20like%20to%20order%20First%20Lady" class="btn-order">Order Now</a>
+          <button class="btn-order" data-product="First Lady" data-price="150" onclick="openCheckout(this)">Order Now</button>
         </div>
         <div class="product-card reveal">
           <div class="product-media">
@@ -1203,7 +1355,7 @@
           <p class="notes"><strong>Notes:</strong> Citrus, Peony, Musk</p>
           <p class="notes">Fresh, youthful, and vibrant &mdash; perfect for every day.</p>
           <p class="price">R150</p>
-          <a href="https://wa.me/27632411975?text=Hi,%20I'd%20like%20to%20order%20Campus%20Queen" class="btn-order">Order Now</a>
+          <button class="btn-order" data-product="Campus Queen" data-price="150" onclick="openCheckout(this)">Order Now</button>
         </div>
         <div class="product-card reveal">
           <div class="product-media">
@@ -1213,10 +1365,58 @@
           <p class="notes"><strong>Notes:</strong> Orchid, Freesia, Sandalwood</p>
           <p class="notes">Rich, romantic, and luxurious &mdash; for unforgettable moments.</p>
           <p class="price">R150</p>
-          <a href="https://wa.me/27632411975?text=Hi,%20I'd%20like%20to%20order%20Royal%20Flower" class="btn-order">Order Now</a>
+          <button class="btn-order" data-product="Royal Flower" data-price="150" onclick="openCheckout(this)">Order Now</button>
         </div>
       </div>
     </section>
+  </div>
+
+  <!-- ================= CHECKOUT MODAL ================= -->
+  <div class="checkout-overlay" id="checkout-overlay" aria-hidden="true">
+    <div class="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+      <button class="checkout-close" onclick="closeCheckout()" aria-label="Close checkout">&times;</button>
+
+      <div id="checkout-form-wrap">
+        <h2 id="checkout-title">Complete Your Order</h2>
+        <p class="checkout-product-name" id="checkout-product">Product Name</p>
+        <p class="checkout-product-price" id="checkout-price">R150.00</p>
+
+        <form id="checkout-form" novalidate>
+          <div class="checkout-field">
+            <label for="cust-name">Full Name</label>
+            <input type="text" id="cust-name" required autocomplete="name" placeholder="e.g. Thabo Mokoena">
+          </div>
+
+          <div class="checkout-field">
+            <label for="cust-email">Email Address</label>
+            <input type="email" id="cust-email" required autocomplete="email" placeholder="you@example.com">
+          </div>
+
+          <div class="checkout-field">
+            <label for="cust-phone">Phone Number</label>
+            <input type="tel" id="cust-phone" required autocomplete="tel" placeholder="082 123 4567">
+          </div>
+
+          <div class="checkout-field">
+            <label for="cust-address">Delivery Address</label>
+            <textarea id="cust-address" rows="3" required placeholder="Street, suburb, city, postal code"></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary checkout-pay-btn" id="checkout-pay-btn">
+            Pay R150.00 Securely
+          </button>
+          <p class="checkout-secure">🔒 Payments secured by Paystack. We never store your card details.</p>
+        </form>
+      </div>
+
+      <div id="checkout-success" class="checkout-success hidden">
+        <div class="checkout-success-icon">✓</div>
+        <h2>Thank You!</h2>
+        <p>Your order has been received. We'll contact you shortly on the number you provided to arrange delivery.</p>
+        <p class="checkout-ref">Reference: <span id="checkout-ref-number">—</span></p>
+        <button class="btn-primary" onclick="closeCheckout()">Continue Shopping</button>
+      </div>
+    </div>
   </div>
 
   <!-- ================= FOOTER ================= -->
@@ -1235,8 +1435,8 @@
             </svg>
           </a>
 
-          <!-- WhatsApp -->
-          <a href="https://wa.me/27632411975" target="_blank" rel="noopener" class="social-icon" aria-label="WhatsApp" title="WhatsApp: 063 241 1975">
+          <!-- WhatsApp (support contact only) -->
+          <a href="https://wa.me/27632411975" target="_blank" rel="noopener" class="social-icon" aria-label="WhatsApp Support" title="WhatsApp Support: 063 241 1975">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51-.17-.01-.37-.01-.57-.01-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.22 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.19 1.87.12.57-.08 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35zM12.05 21.5h-.01a9.43 9.43 0 01-4.8-1.31l-.34-.2-3.57.94.95-3.48-.22-.36A9.42 9.42 0 012.6 12.05c0-5.2 4.24-9.44 9.45-9.44 2.52 0 4.89.98 6.67 2.76a9.37 9.37 0 012.76 6.68c0 5.21-4.24 9.45-9.43 9.45zM20.5 3.5A11.9 11.9 0 0012.05.5C5.5.5.18 5.82.17 12.36c0 2.09.55 4.13 1.59 5.93L.07 24.5l6.37-1.67a11.9 11.9 0 005.61 1.43h.01c6.55 0 11.88-5.32 11.89-11.86a11.8 11.8 0 00-3.45-8.4z"/>
             </svg>
@@ -1280,7 +1480,7 @@
         <a href="https://facebook.com" target="_blank" rel="noopener">Facebook</a>
         <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
         <a href="https://tiktok.com" target="_blank" rel="noopener">TikTok</a>
-        <a href="https://wa.me/27632411975" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="https://wa.me/27632411975" target="_blank" rel="noopener">WhatsApp Support</a>
         <a href="mailto:info@drscenteology.co.za">Email Us</a>
       </div>
 
@@ -1306,6 +1506,9 @@
     </div>
   </footer>
 
+  <!-- Paystack Inline Payment Library -->
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+
   <!-- GSAP core — powers the perfume carousel rotation on the home screen -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
@@ -1327,7 +1530,7 @@
     var heroBgText  = document.getElementById('parallax-text');
     var carousel    = document.getElementById('carousel');
 
-    var REVEAL_TOTAL_MS = 900; // transition duration + small buffer
+    var REVEAL_TOTAL_MS = 900;
 
     /* =========================================================
        1. MOBILE MENU
@@ -1351,11 +1554,10 @@
     });
 
     /* =========================================================
-       2. SCROLL REVEAL ANIMATIONS  (Intersection Observer)
+       2. SCROLL REVEAL ANIMATIONS
        ========================================================= */
     var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
 
-    /* Auto-stagger children of any [data-stagger] group */
     document.querySelectorAll('[data-stagger]').forEach(function (group) {
       var step  = parseInt(group.getAttribute('data-stagger'), 10) || 90;
       var start = parseInt(group.getAttribute('data-stagger-start'), 10) || 0;
@@ -1367,8 +1569,6 @@
       });
     });
 
-    /* Reveals an element, then strips the animation classes so that
-       hover transforms on the same element behave normally afterwards. */
     function revealEl(el) {
       if (el.classList.contains('is-visible')) return;
       el.classList.add('is-visible');
@@ -1398,14 +1598,11 @@
 
       revealEls.forEach(function (el) { observer.observe(el); });
     } else {
-      /* Fallback / reduced motion: show everything immediately */
       revealEls.forEach(function (el) {
         el.classList.add('is-visible');
       });
     }
 
-    /* Safety net used after SPA view switches — handles the rare case
-       where a browser doesn't re-fire IntersectionObserver on display change. */
     function revealInViewport(root) {
       if (!root || !observer) return;
       var vh = window.innerHeight || document.documentElement.clientHeight;
@@ -1428,21 +1625,19 @@
     function updateHeader(y) {
       var delta = y - lastY;
 
-      /* Always visible at the very top of the page */
       if (y <= 60) {
         nav.classList.remove('nav-hidden');
         lastY = y;
         return;
       }
 
-      /* Hysteresis: ignore tiny scroll movements to prevent flicker */
       if (Math.abs(delta) < 8) return;
 
       if (delta > 0) {
-        nav.classList.add('nav-hidden');   /* scrolling DOWN → hide */
+        nav.classList.add('nav-hidden');
         closeMenu();
       } else {
-        nav.classList.remove('nav-hidden'); /* scrolling UP → show */
+        nav.classList.remove('nav-hidden');
       }
 
       lastY = y;
@@ -1454,7 +1649,6 @@
 
       updateHeader(y);
 
-      /* Very subtle decorative parallax on the oversized hero word */
       if (heroBgText && !prefersReduced && heroHeight && y < heroHeight) {
         var p = y / heroHeight;
         heroBgText.style.transform =
@@ -1470,8 +1664,7 @@
     }, { passive: true });
 
     /* =========================================================
-       4. CAROUSEL  (original GSAP behaviour — restored)
-          Cards rotate: active card centre, others slide back & fade
+       4. CAROUSEL
        ========================================================= */
     var updateCarousel = function () {};
 
@@ -1543,7 +1736,6 @@
       if (!target) return;
       target.classList.remove('hidden');
 
-      /* Active nav states (desktop + mobile) */
       document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(function (a) {
         a.classList.remove('active');
       });
@@ -1576,7 +1768,7 @@
     window.showView = showView;
 
     /* =========================================================
-       6. RESIZE HANDLING (debounced)
+       6. RESIZE HANDLING
        ========================================================= */
     var resizeTimer;
     window.addEventListener('resize', function () {
@@ -1587,12 +1779,129 @@
       }, 180);
     }, { passive: true });
 
-    /* Initialise header state on load (e.g. refreshed mid-page) */
     window.requestAnimationFrame(function () {
       lastY = Math.max(0, window.scrollY || 0);
       if (lastY > 60) nav.classList.remove('nav-hidden');
     });
 
+  })();
+  </script>
+
+  <!-- ============================================================
+       PAYSTACK CHECKOUT LOGIC
+       ============================================================ -->
+  <script>
+  (function () {
+    'use strict';
+
+    // ============================================================
+    //  ⚠️  REPLACE THIS WITH YOUR OWN PAYSTACK PUBLIC KEY
+    //  Get it from: Paystack Dashboard → Settings → API Keys & Webhooks
+    //  Use pk_test_... for testing, pk_live_... for real payments.
+    // ============================================================
+    var PAYSTACK_PUBLIC_KEY = 'pk_test_REPLACE_WITH_YOUR_PUBLIC_KEY';
+
+    var currentProduct = { name: '', price: 0 };
+
+    var overlay      = document.getElementById('checkout-overlay');
+    var formWrap     = document.getElementById('checkout-form-wrap');
+    var successWrap  = document.getElementById('checkout-success');
+    var productEl    = document.getElementById('checkout-product');
+    var priceEl      = document.getElementById('checkout-price');
+    var payBtn       = document.getElementById('checkout-pay-btn');
+    var form         = document.getElementById('checkout-form');
+    var refEl        = document.getElementById('checkout-ref-number');
+
+    // ---------- Open / Close ----------
+    window.openCheckout = function (btn) {
+      currentProduct.name  = btn.dataset.product || 'Fragrance';
+      currentProduct.price = parseFloat(btn.dataset.price) || 150;
+
+      productEl.textContent = currentProduct.name;
+      priceEl.textContent   = 'R' + currentProduct.price.toFixed(2);
+      payBtn.textContent    = 'Pay R' + currentProduct.price.toFixed(2) + ' Securely';
+
+      formWrap.classList.remove('hidden');
+      successWrap.classList.add('hidden');
+      form.reset();
+
+      overlay.classList.add('open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    };
+
+    window.closeCheckout = function () {
+      overlay.classList.remove('open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) window.closeCheckout();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('open')) {
+        window.closeCheckout();
+      }
+    });
+
+    // ---------- Handle Form Submission ----------
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var name    = document.getElementById('cust-name').value.trim();
+      var email   = document.getElementById('cust-email').value.trim();
+      var phone   = document.getElementById('cust-phone').value.trim();
+      var address = document.getElementById('cust-address').value.trim();
+
+      if (!name || !email || !phone || !address) {
+        alert('Please fill in all fields.');
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+
+      if (typeof PaystackPop === 'undefined') {
+        alert('Payment library failed to load. Please refresh the page and try again.');
+        return;
+      }
+
+      payBtn.disabled    = true;
+      payBtn.textContent = 'Opening secure payment...';
+
+      var handler = PaystackPop.setup({
+        key:      PAYSTACK_PUBLIC_KEY,
+        email:    email,
+        amount:   Math.round(currentProduct.price * 100),
+        currency: 'ZAR',
+        metadata: {
+          custom_fields: [
+            { display_name: 'Customer Name',    variable_name: 'customer_name', value: name },
+            { display_name: 'Phone Number',     variable_name: 'phone',         value: phone },
+            { display_name: 'Delivery Address', variable_name: 'address',       value: address },
+            { display_name: 'Product',          variable_name: 'product',       value: currentProduct.name },
+            { display_name: 'Price (ZAR)',      variable_name: 'price',         value: currentProduct.price.toFixed(2) }
+          ]
+        },
+        callback: function (response) {
+          payBtn.disabled    = false;
+          payBtn.textContent = 'Pay R' + currentProduct.price.toFixed(2) + ' Securely';
+
+          refEl.textContent = response.reference || 'N/A';
+          formWrap.classList.add('hidden');
+          successWrap.classList.remove('hidden');
+        },
+        onClose: function () {
+          payBtn.disabled    = false;
+          payBtn.textContent = 'Pay R' + currentProduct.price.toFixed(2) + ' Securely';
+        }
+      });
+
+      handler.openIframe();
+    });
   })();
   </script>
 </body>
